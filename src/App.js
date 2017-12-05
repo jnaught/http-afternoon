@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 
 import {Switch, Route} from 'react-router-dom';
+import axios from 'axios';
 
 import Header from './components/subcomponents/Header'
 import Footer from './components/subcomponents/Footer'
