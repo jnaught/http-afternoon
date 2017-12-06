@@ -13,7 +13,16 @@ class Blog extends Component{
         }
     }
 
-    // insert componentWillMount method
+        // insert componentWillMount method
+        componentWillMount(){
+            axios.get(`/api/blog/${this.props.match.params.id}`)
+            .then(response => this.setState({blog: response}))
+            .catch(console.log);
+        }
+    
+    
+
+    
 
     
     render(){

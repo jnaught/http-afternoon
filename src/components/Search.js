@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+
 import BlogTile from './subcomponents/BlogTile';
 import UserTile from './subcomponents/UserTile';
 
 // import axios
-
+import axios from 'axios';
 class Search extends Component{
     constructor(){
         super();
@@ -15,15 +15,60 @@ class Search extends Component{
             searchType: 'blogs',
         }
     }
+
+
+        
+    
     
     
     // insert search method
+
+/* COULD NOT FIGURE THIS OUT ON MY OWN COPY AND PASTE FROM SOLUTION */
+    // search(event){
+        
+    //     event.preventDefault()
+    //     axios.get(`/api/${this.state.searchType}?query=${this.state.searchTerm}`)
+    //     .then(response => {
+        
+    //         if(this.state.searchType === 'blogs'){
+    //             this.props.history.push(makeQuery('/search?',{q:searchTerm,type:searchType}))
+    //             this.setState({blogResults: response.data})
+             
+
+    //         }
+    //         else{
+    //             this.props.history.push(makeQuery('/search?',{q:searchTerm,type:searchType}))
+    //             this.setState({userResults: response.data})
+              
+    //         }
+    //     }).catch(console.log)
+    // }
+    search(e){
+        e.preventDefault()
+        const { searchTerm, searchType }=this.state
+        
+        axios.get(`/api/${searchType}?q=${searchTerm}`).then(response=>{
+            if(searchType==='blogs'){
+                this.props.history.push(makeQuery('/search?',{q:searchTerm,type:searchType}))
+                this.setState({
+                    blogResults: response.data,
+                    userResults: []
+                })
+            }else{
+                this.props.history.push(makeQuery('/search?',{q:searchTerm,type:searchType}))
+                this.setState({
+                    blogResults: [],
+                    userResults: response.data
+                })
+            }
+        }).catch(console.log)
+    }
     
     
     render(){
-        // map over the blogResults and userResults here, replace the empty arrays.
-        const blogResults = []
-        const userResults = []
+        // map over the searchResults here
+        const blogResults = this.state.blogResults.map((c,i)=> <BlogTile key={i} blog={c}/> )
+        const userResults = this.state.userResults.map((c,i)=> <UserTile key={i} user={c}/>)
 
         return(
             <div className='content search-view' >

@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import ConfirmModal from './subcomponents/ConfirmModal';
 
 // import axios
-
+import axios from 'axios';
 
 class Edit extends Component {
     constructor(){
@@ -20,12 +20,50 @@ class Edit extends Component {
     }
 
     // insert componentWillMount
+    componentWillMount(){
+        axios.get(`/api/blog/${this.props.match.params.id}`).then(response => {
+            let blog = response.data;
+            this.setState({
+                title: blog.title,
+                subTitle: blog.subTitle,
+                image: blog.image,
+                text: blog.text,
+                original: blog
+            });
+            }).catch(console.log);
+        }
+   
+     // insert updatePost 
 
-    
-    // insert updatePost 
-    
+    updatePost(){
+   
+            let body = {
+                title: this.state.title, 
+                subTitle: this.state.subTitle, 
+                image: this.state.image, 
+                text: this.state.text
+            }
+            axios.put(`/api/blog/${this.props.match.params.id}, body`).then(response => {
+                this.props.history.push(`/blog/${this.props.match.params.id}`)
+            
+            }).catch(console.log)
+        
+        }
 
+   
+ 
     // Insert into the deletePost 
+  deletePost(){
+        axios.delete(`/api/blogs/${this.props.match.params.id}`).then(response => {
+            this.props.history.push('/search')
+        }).catch(console.log)
+    }
+    
+    
+
+    
+
+
 
     
     render() {

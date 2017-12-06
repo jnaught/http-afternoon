@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import Hero from './subcomponents/Hero';
 import BlogThumb from './subcomponents/BlogThumb';
-import axios from 'axios';
+
 
 // import axios
-
+import axios from 'axios';
 class Home extends Component{
     constructor(){
         super();
